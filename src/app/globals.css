@@ -1,8 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  /* スリランカテーマカラー */
+  --tea-green: #0D7340;
+  --spice-orange: #F18F01;
+  --lion-gold: #FFC40C;
+  --ocean-blue: #1A9DAB;
+  --cinnamon-brown: #8B4513;
+  --lotus-light: #F8BBD0;
+  
+  /* システムカラー */
+  --background: #F5F5F5;
   --foreground: #171717;
+  
+  /* プライマリーカラー */
+  --color-primary: var(--tea-green);
+  --color-primary-light: #2E9D6A;
+  --color-primary-dark: #0A592F;
+  
+  /* セカンダリーカラー */
+  --color-secondary: var(--spice-orange);
+  --color-secondary-light: #FFAB3D;
+  --color-secondary-dark: #D17900;
+  
+  /* アクセントカラー */
+  --color-accent: var(--lion-gold);
+  --color-accent-light: #FFD650;
+  --color-accent-dark: #DDA60A;
 }
 
 @theme inline {
@@ -22,5 +46,67 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans, Arial, Helvetica, sans-serif);
+}
+
+/* スリランカ用ユーティリティクラス */
+.sri-card {
+  @apply bg-white rounded-lg shadow p-4 mb-4;
+}
+
+.sri-button {
+  @apply bg-white text-[var(--color-primary)] font-medium py-2 px-4 rounded-md 
+         border border-[var(--color-primary)] hover:bg-[var(--color-primary)]
+         hover:text-white transition-colors duration-200;
+}
+
+.sri-button-primary {
+  @apply bg-[var(--color-primary)] text-white font-medium py-2 px-4 rounded-md 
+         hover:bg-[var(--color-primary-light)] transition-colors duration-200;
+}
+
+.sri-button-secondary {
+  @apply bg-[var(--color-secondary)] text-white font-medium py-2 px-4 rounded-md 
+         hover:bg-[var(--color-secondary-light)] transition-colors duration-200;
+}
+
+.sri-button-accent {
+  @apply bg-[var(--color-accent)] text-gray-900 font-medium py-2 px-4 rounded-md 
+         hover:bg-[var(--color-accent-light)] transition-colors duration-200;
+}
+
+.sri-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--ocean-blue) 100%);
+  color: white;
+}
+
+.sri-input {
+  @apply border border-gray-300 rounded-md px-3 py-2 focus:outline-none 
+         focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent;
+}
+
+/* テキスト色 */
+.text-primary {
+  color: var(--color-primary);
+}
+
+.text-secondary {
+  color: var(--color-secondary);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+/* 背景色 */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-accent {
+  background-color: var(--color-accent);
 }
