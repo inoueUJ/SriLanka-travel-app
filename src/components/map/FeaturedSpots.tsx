@@ -50,7 +50,7 @@ export default function FeaturedSpots({ spots, onSelect }: FeaturedSpotsProps) {
               <div 
                 className="h-full w-full bg-[var(--ocean-blue)]"
                 style={{
-                  backgroundImage: `url(${spot.thumbnail})`,
+                  backgroundImage: spot.images && spot.images.length > 0 ? `url(${spot.images[0]})` : 'none',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center'
                 }}

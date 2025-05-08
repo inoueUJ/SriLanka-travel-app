@@ -10,6 +10,7 @@ interface VisitPlanListProps {
   onUpdatePlan: () => void;
 }
 
+
 export default function VisitPlanList({ 
   visitPlan, 
   onSelectSpot,
@@ -23,17 +24,23 @@ export default function VisitPlanList({
   const plannedSpots = visitPlan.plannedSpots
     .map(plan => {
       const spot = getTouristSpotById(plan.spotId);
-      return spot ? { ...spot, plannedDate: plan.plannedDate } : null;
+      if (!spot) return null;
+      return { ...spot, plannedDate: plan.plannedDate };
     })
-    .filter((spot): spot is TouristSpot & { plannedDate?: string } => spot !== null);
+    .filter((spot)  => spot !== null);
   
   // 訪問済みのスポット情報を取得
   const visitedSpots = visitPlan.visitedSpots
     .map(visit => {
       const spot = getTouristSpotById(visit.spotId);
-      return spot ? { ...spot, visitDate: visit.visitDate, notes: visit.notes } : null;
+      if (!spot) return null;
+      return { 
+        ...spot, 
+        visitDate: visit.visitDate,
+        notes: visit.notes 
+      };
     })
-    .filter((spot): spot is TouristSpot & { visitDate: string, notes?: string } => spot !== null)
+    .filter((spot)  => spot !== null)
     .sort((a, b) => new Date(b.visitDate).getTime() - new Date(a.visitDate).getTime()); // 最新順
   
   // 訪問予定から削除

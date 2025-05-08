@@ -49,7 +49,7 @@ const touristSpotsData: TouristSpot[] = [
     images: [
       "/images/sigiriya.jpg",
     ],
-    thumbnail: "/images/sigiriya_thumb.jpg",
+    thumbnail: "/images/sigiriya.jpg",
     categories: ["自然", "歴史", "世界遺産"],
     rating: 4.9,
     reviewCount: 1243,
@@ -84,11 +84,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/kandy_temple1.jpg",
-      "/images/kandy_temple2.jpg",
-      "/images/kandy_temple3.jpg"
+      "/images/kyandhino.jpg"
     ],
-    thumbnail: "/images/kandy_temple_thumb.jpg",
+    thumbnail: "/images/kyandhino.jpg",
     categories: ["寺院", "歴史", "世界遺産"],
     rating: 4.8,
     reviewCount: 987,
@@ -123,11 +121,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/galle1.jpg",
-      "/images/galle2.jpg",
-      "/images/galle3.jpg"
+      "/images/galle04.jpg"
     ],
-    thumbnail: "/images/galle_thumb.jpg",
+    thumbnail: "/images/galle04.jpg",
     categories: ["歴史", "町並み", "世界遺産"],
     rating: 4.7,
     reviewCount: 876,
@@ -162,11 +158,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/pinnawala1.jpg",
-      "/images/pinnawala2.jpg",
-      "/images/pinnawala3.jpg"
+      "/images/Pinnawala_01.jpg"
     ],
-    thumbnail: "/images/pinnawala_thumb.jpg",
+    thumbnail: "/images/Pinnawala_01.jpg",
     categories: ["自然", "動物"],
     rating: 4.2,
     reviewCount: 754,
@@ -201,11 +195,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/dambulla1.jpg",
-      "/images/dambulla2.jpg",
-      "/images/dambulla3.jpg"
+      "/images/danbura.jpg"
     ],
-    thumbnail: "/images/dambulla_thumb.jpg",
+    thumbnail: "/images/danbura.jpg",
     categories: ["寺院", "歴史", "世界遺産"],
     rating: 4.6,
     reviewCount: 682,
@@ -240,11 +232,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/yala1.jpg",
-      "/images/yala2.jpg",
-      "/images/yala3.jpg"
+      "/images/yala_national_park.jpg"
     ],
-    thumbnail: "/images/yala_thumb.jpg",
+    thumbnail: "/images/yala_national_park.jpg",
     categories: ["自然", "野生動物"],
     rating: 4.7,
     reviewCount: 912,
@@ -279,11 +269,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/ella1.jpg",
-      "/images/ella2.jpg",
-      "/images/ella3.jpg"
+      "/images/erra.jpg"
     ],
-    thumbnail: "/images/ella_thumb.jpg",
+    thumbnail: "/images/erra.jpg",
     categories: ["自然", "ハイキング", "景観"],
     rating: 4.5,
     reviewCount: 832,
@@ -318,11 +306,9 @@ const touristSpotsData: TouristSpot[] = [
       }
     },
     images: [
-      "/images/polonnaruwa1.jpg",
-      "/images/polonnaruwa2.jpg",
-      "/images/polonnaruwa3.jpg"
+      "/images/polonnaruwa04.jpg"
     ],
-    thumbnail: "/images/polonnaruwa_thumb.jpg",
+    thumbnail: "/images/polonnaruwa04.jpg",
     categories: ["歴史", "遺跡", "世界遺産"],
     rating: 4.8,
     reviewCount: 745,
