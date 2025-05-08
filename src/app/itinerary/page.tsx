@@ -13,12 +13,18 @@ export default function ItineraryPage() {
   
   // アクティブな日付が変更されたとき、対応するデータをセット
   useEffect(() => {
-    // ローカルストレージからデータをロード
-    const savedData = localStorage.getItem('srilankaItinerary');
-    if (savedData) {
-      const parsedData = JSON.parse(savedData);
-      setDayData(parsedData[activeDay] || itineraryData[activeDay as keyof typeof itineraryData]);
+    // ブラウザ環境でのみローカルストレージにアクセス
+    if (typeof window !== 'undefined') {
+      // ローカルストレージからデータをロード
+      const savedData = localStorage.getItem('srilankaItinerary');
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        setDayData(parsedData[activeDay] || itineraryData[activeDay as keyof typeof itineraryData]);
+      } else {
+        setDayData(itineraryData[activeDay as keyof typeof itineraryData]);
+      }
     } else {
+      // サーバーサイドレンダリング時はデフォルト値を使用
       setDayData(itineraryData[activeDay as keyof typeof itineraryData]);
     }
   }, [activeDay]);
@@ -32,11 +38,14 @@ export default function ItineraryPage() {
     const updatedDayData = { ...dayData, items: updatedItems };
     setDayData(updatedDayData);
     
-    // ローカルストレージに保存
-    const savedData = localStorage.getItem('srilankaItinerary');
-    const parsedData = savedData ? JSON.parse(savedData) : { ...itineraryData };
-    const updatedItineraryData = { ...parsedData, [activeDay]: updatedDayData };
-    localStorage.setItem('srilankaItinerary', JSON.stringify(updatedItineraryData));
+    // ブラウザ環境でのみローカルストレージにアクセス
+    if (typeof window !== 'undefined') {
+      // ローカルストレージに保存
+      const savedData = localStorage.getItem('srilankaItinerary');
+      const parsedData = savedData ? JSON.parse(savedData) : { ...itineraryData };
+      const updatedItineraryData = { ...parsedData, [activeDay]: updatedDayData };
+      localStorage.setItem('srilankaItinerary', JSON.stringify(updatedItineraryData));
+    }
   };
   
   // 進行中または次のタスクを取得
@@ -167,16 +176,20 @@ export default function ItineraryPage() {
           <div className="p-4">
             {Object.keys(itineraryData).map((dayId) => {
               // 進捗率計算
-              const savedData = localStorage.getItem('srilankaItinerary');
               let dayProgress = 0;
               
-              if (savedData) {
-                const parsedData = JSON.parse(savedData);
-                if (parsedData[dayId]) {
-                  const dayItems = parsedData[dayId].items;
-                  const totalItems = dayItems.length;
-                  const completedItems = dayItems.filter((item: any) => item.completed).length;
-                  dayProgress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+              // ブラウザ環境でのみローカルストレージにアクセス
+              if (typeof window !== 'undefined') {
+                const savedData = localStorage.getItem('srilankaItinerary');
+                
+                if (savedData) {
+                  const parsedData = JSON.parse(savedData);
+                  if (parsedData[dayId]) {
+                    const dayItems = parsedData[dayId].items;
+                    const totalItems = dayItems.length;
+                    const completedItems = dayItems.filter((item: any) => item.completed).length;
+                    dayProgress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+                  }
                 }
               }
               
