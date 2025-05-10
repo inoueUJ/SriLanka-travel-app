@@ -1,43 +1,20 @@
-// components/itinerary/DaySelector.tsx
+'use client';
+
 import React from 'react';
 import { ItineraryDataType } from '@/data/itineraryData';
-
-// 進捗率計算の関数
-const calculateProgress = (dayData: any) => {
-  const totalItems = dayData.items.length;
-  if (totalItems === 0) return 0;
-  
-  const completedItems = dayData.items.filter((item: any) => item.completed).length;
-  return Math.round((completedItems / totalItems) * 100);
-};
 
 interface DaySelectorProps {
   activeDay: string;
   setActiveDay: (day: string) => void;
   itineraryData: ItineraryDataType;
+  progressData: Record<string, number>; // 親から渡される進捗データ
 }
 
-export default function DaySelector({ activeDay, setActiveDay, itineraryData }: DaySelectorProps) {
-  // ローカルストレージからデータをロード
-  const getSavedProgress = (dayId: string) => {
-    try {
-      const savedData = localStorage.getItem('srilankaItinerary');
-      if (savedData) {
-        const parsedData = JSON.parse(savedData);
-        if (parsedData[dayId]) {
-          return calculateProgress(parsedData[dayId]);
-        }
-      }
-    } catch (error) {
-      console.error('Error loading progress data:', error);
-    }
-    return calculateProgress(itineraryData[dayId]);
-  };
-  
+export default function DaySelector({ activeDay, setActiveDay, itineraryData, progressData }: DaySelectorProps) {
   return (
     <div className="flex overflow-x-auto bg-gray-50 py-2 px-1 mb-4 rounded-lg shadow-sm">
       {Object.keys(itineraryData).map((dayId) => {
-        const progress = getSavedProgress(dayId);
+        const progress = progressData[dayId] || 0; // 親から渡された進捗データを使用
         const isActive = activeDay === dayId;
         
         return (

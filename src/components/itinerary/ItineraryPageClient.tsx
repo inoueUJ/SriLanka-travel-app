@@ -6,7 +6,7 @@ import DaySelector from '@/components/itinerary/DaySelector';
 import ItineraryList from '@/components/itinerary/ItineraryList';
 import { itineraryData } from '@/data/itineraryData';
 
-export default function ItineraryPage() {
+export default function ItineraryPageClient() {
   const [activeDay, setActiveDay] = useState('day1');
   const [dayData, setDayData] = useState(itineraryData.day1);
   const [showFullScreen, setShowFullScreen] = useState(false);
@@ -14,8 +14,7 @@ export default function ItineraryPage() {
   
   // アクティブな日付が変更されたとき、対応するデータをセット
   useEffect(() => {
-    // ブラウザ環境でのみローカルストレージにアクセス
-    if (typeof window !== 'undefined') {
+    try {
       // ローカルストレージからデータをロード
       const savedData = localStorage.getItem('srilankaItinerary');
       if (savedData) {
@@ -37,9 +36,10 @@ export default function ItineraryPage() {
       } else {
         setDayData(itineraryData[activeDay as keyof typeof itineraryData]);
       }
-    } else {
-      // サーバーサイドレンダリング時はデフォルト値を使用
+    } catch (error) {
+      // エラーが発生した場合はデフォルト値を使用
       setDayData(itineraryData[activeDay as keyof typeof itineraryData]);
+      console.error('Error accessing localStorage:', error);
     }
   }, [activeDay]);
   
@@ -58,13 +58,14 @@ export default function ItineraryPage() {
     const newProgress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
     setProgressData(prev => ({...prev, [activeDay]: newProgress}));
     
-    // ブラウザ環境でのみローカルストレージにアクセス
-    if (typeof window !== 'undefined') {
+    try {
       // ローカルストレージに保存
       const savedData = localStorage.getItem('srilankaItinerary');
       const parsedData = savedData ? JSON.parse(savedData) : { ...itineraryData };
       const updatedItineraryData = { ...parsedData, [activeDay]: updatedDayData };
       localStorage.setItem('srilankaItinerary', JSON.stringify(updatedItineraryData));
+    } catch (error) {
+      console.error('Error updating localStorage:', error);
     }
   };
   
@@ -108,7 +109,7 @@ export default function ItineraryPage() {
       <div className="p-4">
         {/* Day選択タブ - デザイン改善 */}
         <DaySelector 
-          activeDay={activeDay}
+          activeDay={activeDay} 
           setActiveDay={setActiveDay}
           itineraryData={itineraryData}
           progressData={progressData} // 進捗データを渡す
@@ -196,7 +197,7 @@ export default function ItineraryPage() {
           
           <div className="p-4">
             {Object.keys(itineraryData).map((dayId) => {
-              // progressDataから進捗率を取得
+              // 計算関数ではなく進捗状態から値を取得
               const dayProgress = progressData[dayId] || 0;
               const isActiveDay = activeDay === dayId;
               
