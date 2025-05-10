@@ -9,7 +9,7 @@
   --cinnamon-brown: #8B4513;
   --lotus-light: #F8BBD0;
   
-  /* システムカラー */
+  /* システムカラー - 常にライトモード設定 */
   --background: #F5F5F5;
   --foreground: #171717;
   
@@ -36,11 +36,18 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* ⚠️ このダークモードのメディアクエリを削除または無効化 ⚠️
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+*/
+
+/* 明示的にライトモードを強制する場合は以下を追加 */
+html {
+  color-scheme: light;
 }
 
 body {
