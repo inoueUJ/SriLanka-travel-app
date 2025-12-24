@@ -174,7 +174,6 @@ export interface Budget {
 export interface Expense {
   id: string;             // 支出ID
   amount: number;         // 金額
-  category: string;       // カテゴリ
   date: string;           // 日付
   note?: string;          // メモ
 }
