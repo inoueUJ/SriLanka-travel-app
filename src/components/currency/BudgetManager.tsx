@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { getBudget, setBudget, addExpense, removeExpense, getUsedBudget, getRemainingBudget } from '@/lib/storage';
 
+// 為替レート: 1 LKR = 約0.47円
+const LKR_TO_JPY = 0.47;
+
 export default function BudgetManager() {
   const [budget, setBudgetState] = useState(getBudget());
   const [usedBudget, setUsedBudget] = useState(0);
@@ -65,10 +68,20 @@ export default function BudgetManager() {
     setRemainingBudget(getRemainingBudget());
   };
 
-  // 予算使用率の計算（パーセント）
+  // LKRを円に換算
+  const lkrToJpy = (lkr: number) => Math.round(lkr * LKR_TO_JPY);
+
+  // 円をLKRに換算
+  const jpyToLkr = (jpy: number) => Math.round(jpy / LKR_TO_JPY);
+
+  // 予算使用率の計算（パーセント）- LKRを円換算して計算
+  const usedInJpy = lkrToJpy(usedBudget);
   const budgetUsagePercent = budget.total > 0
-    ? Math.min(Math.round((usedBudget / budget.total) * 100), 100)
+    ? Math.min(Math.round((usedInJpy / budget.total) * 100), 100)
     : 0;
+
+  // 残り予算（円）
+  const remainingInJpy = budget.total - usedInJpy;
 
   return (
     <div className="space-y-6">
@@ -111,11 +124,19 @@ export default function BudgetManager() {
             </div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-gray-600">支出済み:</span>
-              <span className="font-medium text-[var(--spice-orange)]">{usedBudget.toLocaleString()} 円</span>
+              <div className="text-right">
+                <span className="font-medium text-[var(--spice-orange)]">{usedBudget.toLocaleString()} LKR</span>
+                <span className="text-xs text-gray-500 ml-1">(約{usedInJpy.toLocaleString()}円)</span>
+              </div>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-gray-600">残り予算:</span>
-              <span className="font-medium text-[var(--tea-green)]">{remainingBudget.toLocaleString()} 円</span>
+              <div className="text-right">
+                <span className={`font-medium ${remainingInJpy < 0 ? 'text-red-500' : 'text-[var(--tea-green)]'}`}>
+                  {remainingInJpy.toLocaleString()} 円
+                </span>
+                <span className="text-xs text-gray-500 ml-1">(約{jpyToLkr(Math.max(0, remainingInJpy)).toLocaleString()} LKR)</span>
+              </div>
             </div>
           </>
         )}
@@ -124,7 +145,7 @@ export default function BudgetManager() {
         <div className="mt-4">
           <div className="w-full bg-gray-200 rounded-full h-3">
             <div
-              className={`h-3 rounded-full ${remainingBudget < 0 ? 'bg-red-500' : 'bg-[var(--tea-green)]'}`}
+              className={`h-3 rounded-full ${remainingInJpy < 0 ? 'bg-red-500' : 'bg-[var(--tea-green)]'}`}
               style={{ width: `${budgetUsagePercent}%` }}
             ></div>
           </div>
@@ -142,7 +163,7 @@ export default function BudgetManager() {
 
         <div className="space-y-3">
           <div>
-            <label className="block text-sm text-gray-700 mb-1">金額 (円)</label>
+            <label className="block text-sm text-gray-700 mb-1">金額 (LKR)</label>
             <input
               type="number"
               value={expenseAmount}
@@ -202,7 +223,7 @@ export default function BudgetManager() {
                         {expense.note || '支出'}
                       </span>
                       <span className="text-[var(--spice-orange)] font-medium">
-                        {expense.amount.toLocaleString()} 円
+                        {expense.amount.toLocaleString()} LKR
                       </span>
                     </div>
                     <div className="flex justify-between text-xs text-gray-500">
