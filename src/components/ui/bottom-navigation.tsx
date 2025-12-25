@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { Home, DollarSign, BookOpen, Map, CheckSquare, Settings } from 'lucide-react';
+import { Home, DollarSign, BookOpen, Map, CheckSquare } from 'lucide-react';
 import { sriLankaColors } from '@/lib/colors';
 
 type NavItem = {
@@ -42,16 +42,11 @@ export default function BottomNavigation() {
       label: '旅程',
       icon: <CheckSquare size={22} />,
     },
-    {
-      path: '/settings',
-      label: '設定',
-      icon: <Settings size={22} />,
-    },
   ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
-      <div className="max-w-md mx-auto grid grid-cols-6">
+      <div className="max-w-md mx-auto grid grid-cols-5">
         {navItems.map((item) => {
           const isActive = pathname === item.path;
           
